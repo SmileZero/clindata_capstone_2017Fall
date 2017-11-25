@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="../static/css/main.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" crossorigin="anonymous"></script>
+    <title>DDI Query</title>
+</head>
+<body>
+    <div class="header">
+        <img id="logo" src="../static/image/logo.png"/>
+    </div>
+<div class="container">
+    <div id="title">
+        <h4>Query Drug-Drug Interaction</h4>
+    </div>
+    <div id="ddi-form-div">
+    <form id="query-form" action="/query" method="get">
+        <div class="form-group row" id="drug1">
+            <label for="rxcui1" class="col-sm-2 col-form-label">Drug 1 RXCUI</label>
+            <div class="col-sm-10">
+                {% if msg %}
+                    <input name="rxcui1" class="form-control input-text" type="text" value="{{ msg.rxcui1 }}" required/>
+                {% else %}
+                    <input name="rxcui1" class="form-control input-text" type="text" required/>
+                {% endif %}
+            </div>
+        </div>
+        <div class="form-group row" id="drug2">
+            <label for="rxcui2" class="col-sm-2 col-form-label">Drug 2 RXCUI</label>
+            <div class="col-sm-10">
+                {% if msg %}
+                    <input name="rxcui2" class="form-control input-text" type="text" value="{{ msg.rxcui2 }}" required/>
+                {% else %}
+                    <input name="rxcui2" class="form-control input-text" type="text" required/>
+                {% endif %}
+            </div>
+        </div>
+        <button type="submit">Get Interaction</button>
+    </form>
+    </div>
+    <div id="result">
+        <h4>Interaction Result</h4>
+        {% if msg and msg.error %}
+            <div class="error">{{ msg.error }}</div>
+        {% endif %}
+        {% if context %}
+            {% for x in context %}
+                <form id="result-form">
+                    <div class="form-group row">
+                        <label for="severity" class="col-sm-2 col-form-label">Severity</label>
+                        <div class="col-sm-10">
+                            <input name="severity" class="form-control input-text" type="text" value="{{ x.severity }}"/>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="interaction" class="col-sm-2 col-form-label">Interaction</label>
+                        <div class="col-sm-10">
+                            <textarea name="interaction" class="form-control input-textarea" type="text">{{ x.interaction }}</textarea>
+                        </div>
+                    </div>
+                </form>
+            {% endfor %}
+        {% else %}
+            <form id="result-form">
+                <div class="form-group row">
+                    <label for="severity" class="col-sm-2 col-form-label">Severity</label>
+                    <div class="col-sm-10">
+                        <input name="severity" class="form-control input-text" type="text" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="interaction" class="col-sm-2 col-form-label">Interaction</label>
+                    <div class="col-sm-10">
+                        <textarea name="interaction" class="form-control input-textarea" type="text"></textarea>
+                    </div>
+                </div>
+            </form>
+        {% endif %}
+    </div>
+    <footer class="footer bg-faded py-5">
+        <p>Copyright &copy; Clindata 2017</p>
+      </footer>
+</div>
+
+
+</body>
+</html>

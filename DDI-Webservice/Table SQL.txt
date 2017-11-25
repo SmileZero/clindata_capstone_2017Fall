@@ -1,0 +1,21 @@
+CREATE database clindata;
+
+CREATE TABLE ddi (
+id INT NOT NULL AUTO_INCREMENT,
+rxcui_1 CHAR(10) NOT NULL,
+name_1 CHAR(50),
+rxcui_2 CHAR(10) NOT NULL,
+name_2 CHAR(50),
+severity CHAR(10),
+reaction LONGTEXT,
+PRIMARY KEY (id)
+);
+
+LOAD DATA LOCAL INFILE '~/DDI.csv' 
+INTO TABLE ddi 
+CHARACTER SET utf8 
+FIELDS TERMINATED BY ',' 
+OPTIONALLY ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 LINES
+(rxcui_1,name_1,rxcui_2,name_2,severity,reaction);

@@ -1,0 +1,33 @@
+body {
+    width: 100%;
+}
+
+.header {
+    background-color: #336699;
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.6), inset 0 -1px 1px rgba(0, 0, 0, 0.6), 0 0 5px rgba(0, 0, 0, 0.6);
+}
+
+#logo {
+    width: 100px;
+}
+
+#ddi-form-div {
+    margin-top: 40px;
+}
+
+.input-text {
+    width: auto;
+}
+
+#result {
+    margin-top: 30px;
+}
+
+.error {
+    color: red;
+}
+
+.input-textarea {
+    width: 280px;
+    height: 120px;
+}
