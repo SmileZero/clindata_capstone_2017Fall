@@ -1,6 +1,7 @@
 import MySQLdb
 from flask import Flask, render_template, request
 
+
 app = Flask(__name__)
 
 
@@ -28,4 +29,4 @@ def query_ddi():
     return render_template('index.html', context=context, msg=msg)
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0')
