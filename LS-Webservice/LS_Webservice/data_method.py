@@ -55,7 +55,7 @@ def correctInputShape(data_x):
 
 def run_model(json_file):
     patient_feature = data_process(json_file)
-    model = load_model('Clindata_LSTM_Test.h5')
+    model = load_model('Clindata_LSTM_model1.h5')
     Patient_info = correctInputShape(patient_feature)
     predicted_proba = model.predict(Patient_info) #Predict probabilities
     last_pred = predicted_proba[len(predicted_proba)-1][0] #Extract probabilities from the last drug
