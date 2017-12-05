@@ -19,7 +19,11 @@ def query():
     dechal_list = request.args.getlist('dechal')
     rechal_list = request.args.getlist('rechal')
     indications_list = request.args.getlist('indications')
-    return 'Hello World!'
+    json = {'age': age, 'age_group': age_group, 'gender': gender, 'weight': weight,
+            'sequences': seq_list, 'rxcuis': rxcui_list, 'reported_roles': reported_roles_list,
+            'dechals': dechal_list, 'rechals': rechal_list, 'indications': indications_list}
+
+    return 'reponse'
 
 
 if __name__ == '__main__':

@@ -32,13 +32,14 @@
             <h4>Patient Profile</h4><br>
             <div class="form-row">
                 <div class="form-group col-md-3" id="age">
-                    <label for="age-input">Age</label>
+                    <label for="age-input">Age (Year)</label>
                     <input name="age" class="form-control" type="number" id="age-input"/>
                 </div>
                 <div class="form-group col-md-3" id="age-group">
                     <label for="age-group-select">Age Group</label>
                     <select class="form-control" name="age-group" id="age-group-select">
-                        <option value="N" selected>(N) Neonate</option>
+                        <option value="">Unknown</option>
+                        <option value="N">(N) Neonate</option>
                         <option value="I">(I) Infant</option>
                         <option value="C">(C) Child</option>
                         <option value="T">(T) Adolescent</option>
@@ -49,12 +50,13 @@
                 <div class="form-group col-md-3" id="gender">
                     <label for="gender-select">Gender</label>
                     <select class="form-control" name="gender" id="gender-select">
+                        <option value="UNK" selected>Unknown</option>
                         <option value="M" selected>Male</option>
                         <option value="F">Female</option>
                     </select>
                 </div>
                 <div class="form-group col-md-3" id="weight">
-                    <label for="weight-input">Weight</label>
+                    <label for="weight-input">Weight (Pound)</label>
                     <input class="form-control" type="number" name="weight" id="weight-input" />
                 </div>
             </div>
@@ -74,7 +76,8 @@
                         <div class="form-group col-md-3">
                             <label for="role-select-1">Reported Role</label>
                             <select class="form-control" name="reported-role" id="role-select-1">
-                                <option value="PS" selected>(PS) Primary Suspect Drug</option>
+                                <option value="">Unknown</option>
+                                <option value="PS">(PS) Primary Suspect Drug</option>
                                 <option value="SS">(SS) Secondary Suspect Drug</option>
                                 <option value="C">(C) Concomitant</option>
                                 <option value="I">(I) Interacting</option>
@@ -83,7 +86,8 @@
                         <div class="form-group col-md-3">
                             <label for="dechal-select-1">Dechallenge Code</label>
                             <select class="form-control" name="dechal" id="dechal-select-1">
-                                <option value="Y" selected>(Y) Positive Dechallenge</option>
+                                <option value="">Unknown</option>
+                                <option value="Y">(Y) Positive Dechallenge</option>
                                 <option value="N">(N) Negative Dechallenge</option>
                                 <option value="U">(U) Unknown</option>
                                 <option value="D">(D) Does Not Apply</option>
@@ -92,7 +96,8 @@
                         <div class="form-group col-md-3">
                             <label for="rechal-select-1">Rechallenge Code</label>
                             <select class="form-control" name="rechal" id="rechal-select-1">
-                                <option value="Y" selected>(Y) Positive Rechallenge</option>
+                                <option value="">Unknown</option>
+                                <option value="Y">(Y) Positive Rechallenge</option>
                                 <option value="N">(N) Negative Rechallenge</option>
                                 <option value="U">(U) Unknown</option>
                                 <option value="D">(D) Does Not Apply</option>
