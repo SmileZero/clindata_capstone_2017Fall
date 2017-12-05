@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, jsonify
+import data_method as dm
 
 app = Flask(__name__)
 
@@ -19,11 +20,12 @@ def query():
     dechal_list = request.args.getlist('dechal')
     rechal_list = request.args.getlist('rechal')
     indications_list = request.args.getlist('indications')
-    json = {'age': age, 'age_group': age_group, 'gender': gender, 'weight': weight,
+    json_file = {'age': age, 'age_group': age_group, 'gender': gender, 'weight': weight,
             'sequences': seq_list, 'rxcuis': rxcui_list, 'reported_roles': reported_roles_list,
             'dechals': dechal_list, 'rechals': rechal_list, 'indications': indications_list}
-
-    return 'response'
+    response = dm.run_model(json_file)
+    
+    return response
 
 
 if __name__ == '__main__':
