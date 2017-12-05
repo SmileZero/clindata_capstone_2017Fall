@@ -23,7 +23,7 @@ def query():
             'sequences': seq_list, 'rxcuis': rxcui_list, 'reported_roles': reported_roles_list,
             'dechals': dechal_list, 'rechals': rechal_list, 'indications': indications_list}
 
-    return 'reponse'
+    return 'response'
 
 
 if __name__ == '__main__':
