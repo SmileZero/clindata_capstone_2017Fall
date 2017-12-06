@@ -6,13 +6,15 @@ $(document).ready(function($) {
                         fieldName: "drug1",
                         autocomplete: {delay: 0, minLength: 2},
                         availableTags: stringArr,
-                        singleField: true
+                        singleField: true,
+                        caseSensitive: false
                   });
                   $('#drug-tag2').tagit({
                         fieldName: "drug2",
                         autocomplete: {delay: 0, minLength: 2},
                         availableTags: stringArr,
-                        tagLimit:1
+                        tagLimit:1,
+                        caseSensitive: false
                   });
             });
 

@@ -138,11 +138,11 @@
 
             if (!this.options.autocomplete.source) {
                 this.options.autocomplete.source = function(search, showChoices) {
-                    var filter = search.term;
+                    var filter = search.term.toLowerCase();
                     var choices = $.grep(this.options.availableTags, function(element) {
                         // Only match autocomplete options that begin with the search term.
                         // (Case insensitive.)
-                        return (element.toString().indexOf(filter) === 0);
+                        return (element.toLowerCase().indexOf(filter) === 0);
                     });
                     if (!this.options.allowDuplicates) {
                         choices = this._subtractArray(choices, this.assignedTags());
