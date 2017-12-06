@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 import data_method as dm
+import json
 
 app = Flask(__name__)
 
@@ -24,9 +25,25 @@ def query():
             'sequences': seq_list, 'rxcuis': rxcui_list, 'reported_roles': reported_roles_list,
             'dechals': dechal_list, 'rechals': rechal_list, 'indications': indications_list}
     response = dm.run_model(json_file)
-    
-    return response
+    json_response = json.loads(response)
+    data = []
+    index = []
+    if 'data' in json_response:
+        data = json_response['data']
+    if 'index' in json_response:
+        index = json_response['index']
+    list_data = zip(index, data)
+    return render_template('result.html', data=list_data)
 
+@app.route('/getRxcuis', methods=['get'])
+def get_rxcui():
+    rxcuis = dm.get_rxcui()
+    return jsonify(rxcuis)
+
+@app.route('/getIndications', methods=['get'])
+def get_indications():
+    indications = dm.get_indication()
+    return jsonify(indications)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run(debug=True)

@@ -11,4 +11,37 @@ function addDrug() {
     var inputs = sequenceInput + rxcuiInput + reporedRoleInput + dechalInput + rechalInput + indicationInput;
     html.html(inputs);
     $("#drug-profile").append(html);
+    $.get(window.location.origin + "/getRxcuis")
+            .done(function(data) {
+            $( "#rxcui-input-" + seq).autocomplete({
+                source: data,
+                minLength: 3
+            });
+      });
+
+    $.get(window.location.origin + "/getIndications")
+            .done(function(data) {
+            $( "#indication-input-" + seq).autocomplete({
+                source: data,
+                minLength: 3
+            });
+      });
 }
+
+$(document).ready(function($) {
+      $.get(window.location.origin + "/getRxcuis")
+            .done(function(data) {
+            $( "#rxcui-input-1" ).autocomplete({
+                source: data,
+                minLength: 3
+            });
+      });
+
+    $.get(window.location.origin + "/getIndications")
+            .done(function(data) {
+            $( "#indication-input-1" ).autocomplete({
+                source: data,
+                minLength: 3
+            });
+      });
+});

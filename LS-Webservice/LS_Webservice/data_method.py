@@ -10,17 +10,17 @@ file_name = open("unique_categorical_dict.pkl", "r")
 unique_categorical_dict = pickle.load(file_name)
 file_name.close()
 
-# remove all nan within the dictionary
+# remove all nan within the dictionary 
 ind = pd.isnull(unique_categorical_dict['dechal'])
-unique_categorical_dict['dechal'] = unique_categorical_dict['dechal'][~ind]
+unique_categorical_dict['dechal'][ind] = "NaN"
 ind = pd.isnull(unique_categorical_dict['age_grp'])
-unique_categorical_dict['age_grp'] = unique_categorical_dict['age_grp'][~ind]
+unique_categorical_dict['age_grp'][ind] = "NaN"
 ind = pd.isnull(unique_categorical_dict['indications'])
-unique_categorical_dict['indications'] = unique_categorical_dict['indications'][~ind]
+unique_categorical_dict['indications'][ind] = "NaN"
 ind = pd.isnull(unique_categorical_dict['rechal'])
-unique_categorical_dict['rechal'] = unique_categorical_dict['rechal'][~ind]
+unique_categorical_dict['rechal'][ind] = "NaN"
 ind = pd.isnull(unique_categorical_dict['sex'])
-unique_categorical_dict['sex'] = unique_categorical_dict['sex'][~ind]
+unique_categorical_dict['sex'][ind] = "NaN"
 
 #Create function to convert to dummy variables
 def convert_to_dummies(data, categorical_columns, unique_dictionary):
@@ -33,24 +33,26 @@ def convert_to_dummies(data, categorical_columns, unique_dictionary):
 
 # required columns for the dataset:
 def data_process(data_json):
-    categorical_columns = ['RxCUI', 'indications', 'role_cod', 'sex', 'age_grp',
-                       'dechal', 'rechal']
+    categorical_columns = ['RxCUI', 'indications', 'role_cod', 'sex', 'age_grp', 
+                       'dechal', 'rechal']    
     new_df = pd.DataFrame(columns=['RxCUI','indications','role_cod','sex','age','age_grp','wt','dechal','rechal'])
-    durg_num = len(data_json['rxcuis'])
-    for i in range(durg_num):
-        new_df.loc[i] = [data_json['rxcuis'][i],data_json['indications'][i].upper(),data_json['reported_roles'][i],data_json['gender'],\
+    drug_num = len(data_json['rxcuis'])
+    for i in range(drug_num):
+        if data_json['indications'][i].upper() == '':
+            data_json['indications'][i] = "NaN"
+        new_df.loc[i] = [data_json['rxcuis'][i],data_json['indications'][i],data_json['reported_roles'][i],data_json['gender'],\
                         data_json['age'],data_json['age_group'],data_json['weight'],data_json['dechals'][i],data_json['rechals'][i]]
     new_df_dummies = convert_to_dummies(new_df, categorical_columns, unique_categorical_dict)
     return (new_df_dummies)
 
 # Correct shape of test Patient
 def correctInputShape(data_x):
-    size = data_x.shape[0]
-    num_features = data_x[0].shape[1]
-    num_drugs = data_x[0].shape[0]
+    size = 1
+    num_features = data_x.shape[1]
+    num_drugs = data_x.shape[0]
     x_shaped = np.empty((size, num_drugs, num_features))
     for i in range(size):
-        x_shaped[i] = np.nan_to_num(data_x[i].todense())
+        x_shaped[i] = np.nan_to_num(data_x)
     return x_shaped
 
 def run_model(json_file):
@@ -70,3 +72,9 @@ def run_model(json_file):
     prediction_df['Probability'] = probs
     prediction_df_json = prediction_df.to_json(orient='split')
     return (prediction_df_json)
+
+def get_rxcui():
+    return unique_categorical_dict['RxCUI'].tolist()
+
+def get_indication():
+    return unique_categorical_dict['indications'].tolist()
