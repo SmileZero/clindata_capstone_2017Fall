@@ -1,5 +1,7 @@
 CREATE database clindata;
 
+DROP TABLE IF EXISTS ddi CASCADE;
+
 CREATE TABLE ddi (
 rxcui_1 INT NOT NULL,
 name_1 VARCHAR(50),
