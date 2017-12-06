@@ -11,29 +11,31 @@ def main():
 @app.route('/query',  methods=['GET'])
 def query_ddi():
     context = []
-    _rxcui1 = request.args['rxcui1']
-    _rxcui2 = request.args['rxcui2']
-    _rxcui1_arr = _rxcui1.split(',')
-    if _rxcui1 and _rxcui2:
+    _drug1 = request.args['drug1']
+    _drug2 = request.args['drug2']
+    _drug1_arr = _drug1.split(',')
+    if _drug1 and _drug2:
         db = MySQLdb.connect("localhost","root","root","clindata")
         cursor = db.cursor()
-        query_string = "SELECT rxcui_2, name_2, severity, interaction FROM ddi WHERE rxcui_1 =" + _rxcui2 + " and ("
-        for q in _rxcui1_arr:
-             query_string = query_string + " rxcui_2=" + q + " or";
+
+        query_string = "SELECT DISTINCT name_2, severity, interaction FROM new_ddi WHERE name_1 ='" + _drug2 + "' and ("
+        for q in _drug1_arr:
+             query_string = query_string + " name_2='" + q + "' or";
         query_string = query_string[:-3] + ");"
+        print(query_string)
         cursor.execute(query_string)
         data = cursor.fetchall()
-        msg = {'new_drug': _rxcui2}
+        msg = {'new_drug': _drug2}
         if len(data) == 0:
             msg['error'] = 'No result found!'
         db.close()
     return render_template('index.html', data=data, msg=msg)
 
-@app.route('/getRxcuis', methods=['GET'])
-def get_rxcuis():
+@app.route('/getDrugs', methods=['GET'])
+def get_drugs():
     db = MySQLdb.connect("localhost", "root", "root", "clindata")
     cursor = db.cursor()
-    query_string = "SELECT DISTINCT rxcui_1 FROM ddi";
+    query_string = "SELECT DISTINCT name_1 FROM new_ddi";
     cursor.execute(query_string)
     data = cursor.fetchall()
     db.close()

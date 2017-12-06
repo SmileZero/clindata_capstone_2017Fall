@@ -2,25 +2,29 @@ CREATE database clindata;
 
 DROP TABLE IF EXISTS ddi CASCADE;
 
-CREATE TABLE ddi (
-rxcui_1 INT NOT NULL,
+CREATE TABLE new_ddi (
 name_1 VARCHAR(50),
-rxcui_2 INT(10) NOT NULL,
+rxcui_1 INT NOT NULL,
 name_2 VARCHAR(50),
+rxcui_2 INT(10) NOT NULL,
 severity VARCHAR(10),
 interaction LONGTEXT,
-INDEX rxcui_idxs (rxcui_1, rxcui_2)
-) PARTITION BY HASH(rxcui_1)
-PARTITIONS 20;
+INDEX drug_name (name_1, name_2)
+) PARTITION BY RANGE COLUMNS(name_1) (
+PARTITION p0 VALUES LESS THAN ('capecitabine'),
+PARTITION p1 VALUES LESS THAN ('Dextroamphetamine'),
+PARTITION p2 VALUES LESS THAN ('Fosfomycin'),
+PARTITION p3 VALUES LESS THAN ('lucinactant'),
+PARTITION p4 VALUES LESS THAN ('oxaliplatin'),
+PARTITION p5 VALUES LESS THAN ('Ritonavir'),
+PARTITION p6 VALUES LESS THAN (MAXVALUE)
+);
 
 LOAD DATA LOCAL INFILE '~/DDI.csv' 
-INTO TABLE ddi 
+INTO TABLE new_ddi 
 CHARACTER SET utf8 
 FIELDS TERMINATED BY ',' 
 OPTIONALLY ENCLOSED BY '"'
 LINES TERMINATED BY '\n'
 IGNORE 1 LINES
 (rxcui_1,name_1,rxcui_2,name_2,severity,interaction);
-
-create index rxcui_idx on ddi(rxcui_1, rxcui_2);
-select * from ddi where rxcui_1 = 242680 and rxcui_2 = 237057;

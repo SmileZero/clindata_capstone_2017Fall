@@ -1,16 +1,16 @@
 $(document).ready(function($) {
-      $.get(window.location.origin + "/getRxcuis")
+      $.get(window.location.origin + "/getDrugs")
             .done(function(data) {
                 var stringArr = data.map(String);
-                  $('#rxcui-tag1').tagit({
-                        fieldName: "rxcui1",
-                        autocomplete: {delay: 0, minLength: 3},
+                  $('#drug-tag1').tagit({
+                        fieldName: "drug1",
+                        autocomplete: {delay: 0, minLength: 2},
                         availableTags: stringArr,
                         singleField: true
                   });
-                  $('#rxcui-tag2').tagit({
-                        fieldName: "rxcui2",
-                        autocomplete: {delay: 0, minLength: 3},
+                  $('#drug-tag2').tagit({
+                        fieldName: "drug2",
+                        autocomplete: {delay: 0, minLength: 2},
                         availableTags: stringArr,
                         tagLimit:1
                   });

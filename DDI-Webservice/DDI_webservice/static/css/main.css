@@ -44,3 +44,8 @@ body {
     margin: auto;
     text-align: left;
 }
+
+.ui-menu {
+    height: 150px;
+    overflow-y: scroll;
+}
