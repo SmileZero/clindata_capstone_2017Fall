@@ -2,9 +2,7 @@ import pickle
 import pandas as pd
 from sklearn.preprocessing import OneHotEncoder, LabelEncoder
 import numpy as np
-from keras.models import load_model
 
-# def read_dict():
 # load the unique_dict_categorical file for unique values for the feature matrix
 file_name = open("unique_categorical_dict.pkl", "r")
 unique_categorical_dict = pickle.load(file_name)
@@ -55,9 +53,8 @@ def correctInputShape(data_x):
         x_shaped[i] = np.nan_to_num(data_x)
     return x_shaped
 
-def run_model(json_file):
+def run_model(json_file, model):
     patient_feature = data_process(json_file)
-    model = load_model('Clindata_LSTM_model1.h5')
     Patient_info = correctInputShape(patient_feature)
     predicted_proba = model.predict(Patient_info) #Predict probabilities
     last_pred = predicted_proba[len(predicted_proba)-1][0] #Extract probabilities from the last drug

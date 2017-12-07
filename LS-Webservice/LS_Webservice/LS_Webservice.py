@@ -1,8 +1,10 @@
 from flask import Flask, render_template, request, jsonify
 import data_method as dm
 import json
+from keras.models import load_model
 
 app = Flask(__name__)
+model = load_model('Clindata_LSTM_model1.h5')
 
 @app.route('/')
 def main():
@@ -24,7 +26,7 @@ def query():
     json_file = {'age': age, 'age_group': age_group, 'gender': gender, 'weight': weight,
             'sequences': seq_list, 'rxcuis': rxcui_list, 'reported_roles': reported_roles_list,
             'dechals': dechal_list, 'rechals': rechal_list, 'indications': indications_list}
-    response = dm.run_model(json_file)
+    response = dm.run_model(json_file, model)
     json_response = json.loads(response)
     data = []
     index = []
@@ -46,4 +48,4 @@ def get_indications():
     return jsonify(indications)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0')
