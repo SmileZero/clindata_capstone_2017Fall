@@ -81,6 +81,10 @@ td, th {
 }
 
 .ui-menu {
-    height: 100px;
+    height: 150px;
     overflow-y: scroll;
+}
+
+.ui-corner-all {
+    font-size: small;
 }

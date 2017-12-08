@@ -2,6 +2,7 @@ import pickle
 import pandas as pd
 from sklearn.preprocessing import OneHotEncoder, LabelEncoder
 import numpy as np
+import math
 
 # load the unique_dict_categorical file for unique values for the feature matrix
 file_name = open("unique_categorical_dict.pkl", "r")
@@ -29,6 +30,10 @@ def convert_to_dummies(data, categorical_columns, unique_dictionary):
     dummy = pd.get_dummies(data, columns=categorical_columns)
     return dummy
 
+def calculate_sigmod(x, k, x0):
+    y = 1 / (1 + math.exp(-k * (x - x0)))
+    return y
+
 # required columns for the dataset:
 def data_process(data_json):
     categorical_columns = ['RxCUI', 'indications', 'role_cod', 'sex', 'age_grp', 
@@ -38,6 +43,10 @@ def data_process(data_json):
     for i in range(drug_num):
         if data_json['indications'][i].upper() == '':
             data_json['indications'][i] = "NaN"
+
+        # scale the weight and age
+        data_json['weight'] = calculate_sigmod(float(data_json['weight']), 10 ** -1.5, 170)
+        data_json['age'] = calculate_sigmod(float(data_json['age']), 0.1, 50)
         new_df.loc[i] = [data_json['rxcuis'][i],data_json['indications'][i],data_json['reported_roles'][i],data_json['gender'],\
                         data_json['age'],data_json['age_group'],data_json['weight'],data_json['dechals'][i],data_json['rechals'][i]]
     new_df_dummies = convert_to_dummies(new_df, categorical_columns, unique_categorical_dict)
