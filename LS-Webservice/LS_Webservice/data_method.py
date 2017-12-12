@@ -11,15 +11,15 @@ file_name.close()
 
 # remove all nan within the dictionary 
 ind = pd.isnull(unique_categorical_dict['dechal'])
-unique_categorical_dict['dechal'][ind] = "NaN"
+unique_categorical_dict['dechal'][ind] = "nan"
 ind = pd.isnull(unique_categorical_dict['age_grp'])
-unique_categorical_dict['age_grp'][ind] = "NaN"
+unique_categorical_dict['age_grp'][ind] = "nan"
 ind = pd.isnull(unique_categorical_dict['indications'])
-unique_categorical_dict['indications'][ind] = "NaN"
+unique_categorical_dict['indications'][ind] = "nan"
 ind = pd.isnull(unique_categorical_dict['rechal'])
-unique_categorical_dict['rechal'][ind] = "NaN"
+unique_categorical_dict['rechal'][ind] = "nan"
 ind = pd.isnull(unique_categorical_dict['sex'])
-unique_categorical_dict['sex'][ind] = "NaN"
+unique_categorical_dict['sex'][ind] = "nan"
 
 #Create function to convert to dummy variables
 def convert_to_dummies(data, categorical_columns, unique_dictionary):
@@ -34,6 +34,10 @@ def calculate_sigmod(x, k, x0):
     y = 1 / (1 + math.exp(-k * (x - x0)))
     return y
 
+def calculate_sigmod(x, k, x0):
+    y = 1 / (1 + math.exp(-k * (x - x0)))
+    return y
+
 # required columns for the dataset:
 def data_process(data_json):
     categorical_columns = ['RxCUI', 'indications', 'role_cod', 'sex', 'age_grp', 
@@ -41,17 +45,26 @@ def data_process(data_json):
     new_df = pd.DataFrame(columns=['RxCUI','indications','role_cod','sex','age','age_grp','wt','dechal','rechal'])
     drug_num = len(data_json['rxcuis'])
     for i in range(drug_num):
-        if data_json['indications'][i].upper() == '':
-            data_json['indications'][i] = "NaN"
-
+        if data_json['indications'][i] == '':
+            data_json['indications'][i] = "nan"
+        if data_json['dechals'][i] == '':
+            data_json['dechals'][i] = "nan"
+        if data_json['rechals'][i] == '':
+            data_json['rechals'][i] = "nan"
+        if data_json['gender'] == '':
+            data_json['gender'] = "nan"
+        if data_json['age_group'] == '':
+            data_json['age_group'] = "nan"
+            
         # scale the weight and age
         data_json['weight'] = calculate_sigmod(float(data_json['weight']), 10 ** -1.5, 170)
         data_json['age'] = calculate_sigmod(float(data_json['age']), 0.1, 50)
+
         new_df.loc[i] = [data_json['rxcuis'][i],data_json['indications'][i],data_json['reported_roles'][i],data_json['gender'],\
                         data_json['age'],data_json['age_group'],data_json['weight'],data_json['dechals'][i],data_json['rechals'][i]]
     new_df_dummies = convert_to_dummies(new_df, categorical_columns, unique_categorical_dict)
     return (new_df_dummies)
-
+  
 # Correct shape of test Patient
 def correctInputShape(data_x):
     size = 1
