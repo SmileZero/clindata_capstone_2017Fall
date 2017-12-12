@@ -20,7 +20,6 @@ import com.opencsv.CSVWriter;
 
 public class DrugInteractionQuery {
 	
-	private final static String FILENAME = "/RxCUI_levels.csv";
 	private final static String RESULT_FILE = "DDI.csv";
 	private final static String QUERY_URL = "https://rxnav.nlm.nih.gov/REST/interaction/interaction.json?";
 	private static Map<String, Integer> rxcuiMap = new HashMap<String, Integer>();
@@ -77,7 +76,8 @@ public class DrugInteractionQuery {
 		CSVReader reader = null;
 		CSVWriter writer = null;
 		try{
-			InputStream is = DrugInteractionQuery.class.getResourceAsStream(FILENAME);
+			String fileName = "/" + args[0];
+			InputStream is = DrugInteractionQuery.class.getResourceAsStream(fileName);
 			reader = new CSVReader(new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8)));
 			String[] line;
 			writer = new CSVWriter(new FileWriter(RESULT_FILE));

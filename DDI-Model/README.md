@@ -8,4 +8,4 @@ DDI Model
 3. `cd ddi` folder, run `mvm clean install`
 4. `cd ddi/target`, run `java -jar ddi-0.0.1-SNAPSHOT-jar-with-dependencies.jar dataSourceFileName`
 5. Drugs with no interaction will display RxCUI in the console
-6. The drug drug interaction is generated in ddi/target named as DDI.csv
+6. The drug-drug interaction result is generated in ddi/target named as `DDI.csv`
