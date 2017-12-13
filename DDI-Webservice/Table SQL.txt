@@ -28,5 +28,3 @@ OPTIONALLY ENCLOSED BY '"'
 LINES TERMINATED BY '\n'
 IGNORE 1 LINES
 (rxcui_1,name_1,rxcui_2,name_2,severity,interaction);
-
-/etc/init.d/apache2 restart
