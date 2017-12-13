@@ -11,8 +11,6 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
-
-//import org.json.JSONArray;
 import org.json.*;
 
 import com.opencsv.CSVReader;
@@ -22,36 +20,9 @@ import com.opencsv.CSVWriter;
 
 public class RxCUIMapping_MultipleLevels {
 
-	private final static String FILENAME = "/DrugMaster_wQueries_Levels.csv";
 	private final static String RESULT_FILE = "RxCUI_levels.csv";
 	private final static String QUERY_URL = "https://rxnav.nlm.nih.gov/REST/rxcui.json?";
 	private static Map<String, String> drugIDMap = new HashMap<String, String>();
-
-	//	private static String getRxCUI(String type, String number) throws Exception {
-	//		StringBuffer response = new StringBuffer();
-	//		URL queryURL = new URL(QUERY_URL + "idtype=" + type + "&id=" + number+"&allsrc=1");
-	//		HttpURLConnection con  = (HttpURLConnection) queryURL.openConnection();
-	//		con.setRequestMethod("GET");
-	//		int responseCode = con.getResponseCode();
-	//		BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-	//		String line;
-	//		while ((line = in.readLine()) != null) {
-	//			response.append(line);
-	//		}
-	//		in.close();
-	//		String rxcui = "";
-	//		if(responseCode == 200) {
-	//			JSONObject jo = new JSONObject(response.toString());
-	//			if(jo.has("idGroup")) {
-	//				JSONObject idJo = jo.getJSONObject("idGroup");
-	//				if(idJo.has("rxnormId")) {
-	//					rxcui = idJo.getJSONArray("rxnormId").toString();
-	//					return rxcui.substring(1, rxcui.length()-1);
-	//				}	
-	//			}
-	//		}
-	//		return rxcui;
-	//	}
 
 	private static String findRxCUIByName(String name) throws Exception {
 		StringBuffer response = new StringBuffer();
@@ -88,23 +59,12 @@ public class RxCUIMapping_MultipleLevels {
 		return rxcui;
 	}
 
-	//	private static String findRxCUIByApplCode(String[] line) throws Exception {
-	//		String applType = line[7];
-	//		String applNo = line[8];
-	//		String queryType = "";
-	//		if("A".equals(applType)) {
-	//			queryType = "ANDA";
-	//		} else if("N".equals(applType)) {
-	//			queryType = "NDA";
-	//		}
-	//		return getRxCUI(queryType, queryType+applNo);
-	//	}
-
 	public static void main(String[] args) {
 		CSVReader reader = null;
 		CSVWriter writer = null;
+		String fileName = "/" + args[0];
 		try{
-			InputStream is = RxCUIMapping.class.getResourceAsStream(FILENAME);
+			InputStream is = RxCUIMapping_MultipleLevels.class.getResourceAsStream(fileName);
 			reader = new CSVReader(new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8)));
 			String[] line;
 			writer = new CSVWriter(new FileWriter(RESULT_FILE));
@@ -114,8 +74,6 @@ public class RxCUIMapping_MultipleLevels {
 					System.out.println(i);
 				}
 				i++;
-				//System.out.println(line[20]);
-				//				String rxcui = findRxCUIByApplCode(line);
 				String queryString = line[16];
 				if(drugIDMap.containsKey(queryString)) {
 					line[20] = drugIDMap.get(queryString);

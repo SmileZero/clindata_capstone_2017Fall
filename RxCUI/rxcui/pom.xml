@@ -44,6 +44,11 @@
 					<descriptorRefs>
 						<descriptorRef>jar-with-dependencies</descriptorRef>
 					</descriptorRefs>
+						<archive>
+					    <manifest>
+					      <mainClass>com.clindata.rxcui.RxCUIMapping_MultipleLevels</mainClass>
+					    </manifest>
+					  </archive>
 				</configuration>
 			</plugin>
 
@@ -54,22 +59,6 @@
 				<configuration>
 					<source>1.7</source>
 					<target>1.7</target>
-				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
-				<version>1.6.0</version>
-				<executions>
-                    <execution>
-                        <goals>
-                            <goal>java</goal>
-                        </goals>
-                    </execution>
-                </executions>
-				<configuration>
-					<mainClass>com.clindata.rxcui.RxCUIMapping</mainClass>
 				</configuration>
 			</plugin>
 		</plugins>
