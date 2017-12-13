@@ -1,4 +1,4 @@
-import MySQLdb, itertools
+import MySQLdb
 from flask import Flask, render_template, request, jsonify
 
 
